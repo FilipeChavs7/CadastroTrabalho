@@ -12,9 +12,10 @@ namespace RegistroCadastro.Models
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "{0} required")]
+        [Display(Name = "Nome")]
         public string Name { get; set; }
         [Required(ErrorMessage = "{0} required")]
-        [Display(Name = "Birth Date")]
+        [Display(Name = "Data de Nascimento")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime BirthDate { get; set; }

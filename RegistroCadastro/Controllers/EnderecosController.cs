@@ -34,6 +34,11 @@ namespace RegistroCadastro.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Endereco endereco)
         {
+            if (!ModelState.IsValid)
+            {
+                var viewModel = new EnderecoFormViewModel { Endereco = endereco };
+                return View(viewModel);
+            }
             _enderecoService.Insert(endereco);
             return RedirectToAction(nameof(Index));
         }
@@ -89,7 +94,12 @@ namespace RegistroCadastro.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Endereco endereco)
         {
-            if(id != endereco.Id)
+            if (!ModelState.IsValid)
+            {
+                var viewModel = new EnderecoFormViewModel { Endereco = endereco };
+                return View(viewModel);
+            }
+            if (id != endereco.Id)
             {
                 return BadRequest();
             }

@@ -15,7 +15,7 @@ namespace RegistroCadastro.Models
         [StringLength(2, MinimumLength = 2, ErrorMessage = "Somente a sigla do estado")]
         public string Estado { get; set; }
         [DisplayFormat(DataFormatString = "{0:00\\.000\\-000}",ApplyFormatInEditMode = true)]
-        public int CEP { get; set; }
+        public double CEP { get; set; }
 
         public Pessoa Pessoa { get; set; }
 
@@ -23,7 +23,7 @@ namespace RegistroCadastro.Models
         {
         }
 
-        public Endereco(int id, string logradouro, string complemento, string cidade, string estado, int cep, Pessoa pessoa)
+        public Endereco(int id, string logradouro, string complemento, string cidade, string estado, double cep, Pessoa pessoa)
         {
             Id = id;
             Logradouro = logradouro;
