@@ -5,7 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using RegistroCadastro.Services;
 using RegistroCadastro.Models;
-
+using RegistroCadastro.Models.ViewModels;
+using RegistroCadastro.Services.Exceptions;
 
 namespace RegistroCadastro.Controllers
 {
@@ -69,7 +70,43 @@ namespace RegistroCadastro.Controllers
             }
             return View(obj);
         }
-
+        public IActionResult Edit(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            var obj = _enderecoService.FindById(id.Value);
+            if(obj == null)
+            {
+                return NotFound();
+            }
+            List<Endereco> enderecos = _enderecoService.FindAll();
+            EnderecoFormViewModel viewModel = new EnderecoFormViewModel { Endereco = obj };
+            return View(viewModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Endereco endereco)
+        {
+            if(id != endereco.Id)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                _enderecoService.Update(endereco);
+                return RedirectToAction(nameof(Index));
+            }
+            catch(NotFoundException)
+            {
+                return BadRequest();
+            }
+            catch (DbConcurrencyException)
+            {
+                return BadRequest();
+            }
+        }
 
     }
 }

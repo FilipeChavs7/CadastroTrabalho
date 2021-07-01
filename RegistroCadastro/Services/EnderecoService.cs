@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using RegistroCadastro.Services.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace RegistroCadastro.Services
 {
@@ -32,6 +34,22 @@ namespace RegistroCadastro.Services
             var obj = _context.Endereco.Find(id);
             _context.Endereco.Remove(obj);
             _context.SaveChanges();
+        }
+        public void Update(Endereco obj)
+        {
+            if (!_context.Endereco.Any(x => x.Id == obj.Id))
+            {
+                throw new NotFoundException("Id not found");
+            }
+            try
+            {
+                _context.Update(obj);
+                _context.SaveChanges();
+            }
+            catch(DbUpdateConcurrencyException e)
+            {
+                throw new DbConcurrencyException(e.Message);
+            }
         }
     }
 }

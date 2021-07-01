@@ -16,8 +16,8 @@ namespace RegistroCadastro.Models
         public string Estado { get; set; }
         [DisplayFormat(DataFormatString = "{0:00\\.000\\-000}",ApplyFormatInEditMode = true)]
         public int CEP { get; set; }
+
         public Pessoa Pessoa { get; set; }
-        public int PessoaId { get; set; }
 
         public Endereco()
         {

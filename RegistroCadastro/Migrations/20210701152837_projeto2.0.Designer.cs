@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RegistroCadastro.Models;
 
 namespace RegistroCadastro.Migrations
 {
     [DbContext(typeof(RegistroCadastroContext))]
-    partial class RegistroCadastroContextModelSnapshot : ModelSnapshot
+    [Migration("20210701152837_projeto2.0")]
+    partial class projeto20
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,7 +35,7 @@ namespace RegistroCadastro.Migrations
 
                     b.Property<string>("Logradouro");
 
-                    b.Property<int?>("PessoaId");
+                    b.Property<int>("PessoaId");
 
                     b.Property<string>("TipodeRua");
 
@@ -67,7 +69,8 @@ namespace RegistroCadastro.Migrations
                 {
                     b.HasOne("RegistroCadastro.Models.Pessoa", "Pessoa")
                         .WithMany("Endereco")
-                        .HasForeignKey("PessoaId");
+                        .HasForeignKey("PessoaId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
