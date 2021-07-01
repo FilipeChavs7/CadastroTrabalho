@@ -5,18 +5,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using RegistroCadastro.Data;
 using RegistroCadastro.Models;
+using RegistroCadastro.Services;
+
 
 namespace RegistroCadastro.Controllers
 {
     public class PessoasController : Controller
     {
         private readonly RegistroCadastroContext _context;
+        private readonly PessoaService _pessoaService;
 
-        public PessoasController(RegistroCadastroContext context)
+        public PessoasController(RegistroCadastroContext context, PessoaService pessoaService)
         {
             _context = context;
+            _pessoaService = pessoaService;
         }
 
         // GET: Pessoas

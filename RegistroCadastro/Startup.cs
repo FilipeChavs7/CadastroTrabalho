@@ -10,7 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using RegistroCadastro.Data;
+using RegistroCadastro.Models;
+using RegistroCadastro.Services;
 
 namespace RegistroCadastro
 {
@@ -39,6 +40,9 @@ namespace RegistroCadastro
             services.AddDbContext<RegistroCadastroContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("RegistroCadastroContext"), builder =>
                         builder.MigrationsAssembly("RegistroCadastro")));
+
+            services.AddScoped<PessoaService>();
+            services.AddScoped<EnderecoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

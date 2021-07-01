@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using RegistroCadastro.Models;
 
-namespace RegistroCadastro.Data
+namespace RegistroCadastro.Models
 {
     public class RegistroCadastroContext : DbContext
     {
