@@ -23,5 +23,15 @@ namespace RegistroCadastro.Services
             _context.Add(obj);
             _context.SaveChanges();
         }
+        public Endereco FindById(int id)
+        {
+            return _context.Endereco.FirstOrDefault(obj => obj.Id == id);
+        }
+        public void Remove(int id)
+        {
+            var obj = _context.Endereco.Find(id);
+            _context.Endereco.Remove(obj);
+            _context.SaveChanges();
+        }
     }
 }

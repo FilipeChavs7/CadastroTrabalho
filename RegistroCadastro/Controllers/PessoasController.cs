@@ -15,11 +15,13 @@ namespace RegistroCadastro.Controllers
     {
         private readonly RegistroCadastroContext _context;
         private readonly PessoaService _pessoaService;
+        private readonly EnderecoService _enderecoService;
 
-        public PessoasController(RegistroCadastroContext context, PessoaService pessoaService)
+        public PessoasController(RegistroCadastroContext context, PessoaService pessoaService, EnderecoService enderecoService)
         {
             _context = context;
             _pessoaService = pessoaService;
+            _enderecoService = enderecoService;
         }
 
         // GET: Pessoas
@@ -49,6 +51,7 @@ namespace RegistroCadastro.Controllers
         // GET: Pessoas/Create
         public IActionResult Create()
         {
+            
             return View();
         }
 

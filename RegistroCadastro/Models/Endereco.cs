@@ -14,8 +14,10 @@ namespace RegistroCadastro.Models
         public string Cidade { get; set; }
         [StringLength(2, MinimumLength = 2, ErrorMessage = "Somente a sigla do estado")]
         public string Estado { get; set; }
+        [DisplayFormat(DataFormatString = "{0:00\\.000\\-000}",ApplyFormatInEditMode = true)]
         public int CEP { get; set; }
         public Pessoa Pessoa { get; set; }
+        public int PessoaId { get; set; }
 
         public Endereco()
         {

@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 
 namespace RegistroCadastro.Models.ViewModels
 {
-    public class PessoaFormViewModel
+    public class EnderecoFormViewModel
     {
-        public Pessoa Pessoa { get; set; }
-        public ICollection<Endereco> Enderecos { get; set; }
-
+        public Endereco Endereco { get; set; }
     }
 }
