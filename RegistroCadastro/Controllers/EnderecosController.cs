@@ -21,34 +21,34 @@ namespace RegistroCadastro.Controllers
             _enderecoService = enderecoService;
         }
 
-        public IActionResult Index()
+        public async  Task<IActionResult> Index()
         {
-            var list = _enderecoService.FindAll();
+            var list = await _enderecoService.FindAllAsync();
             return View(list);
         }
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Endereco endereco)
+        public async Task<IActionResult> Create(Endereco endereco)
         {
             if (!ModelState.IsValid)
             {
                 var viewModel = new EnderecoFormViewModel { Endereco = endereco };
                 return View(viewModel);
             }
-            _enderecoService.Insert(endereco);
+            await _enderecoService.InsertAsync(endereco);
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if(id == null)
             {
                 return NotFound();
             }
-            var obj = _enderecoService.FindById(id.Value);
+            var obj = await _enderecoService.FindByIdAsync(id.Value);
             if(obj == null)
             {
                 return NotFound();
@@ -57,42 +57,42 @@ namespace RegistroCadastro.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _enderecoService.Remove(id);
+            await _enderecoService.RemoveAsync(id);
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult Details(int? id)
+        public async  Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var obj = _enderecoService.FindById(id.Value);
+            var obj = await _enderecoService.FindByIdAsync(id.Value);
             if (obj == null)
             {
                 return NotFound();
             }
             return View(obj);
         }
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if(id == null)
             {
                 return NotFound();
             }
-            var obj = _enderecoService.FindById(id.Value);
+            var obj = await _enderecoService.FindByIdAsync(id.Value);
             if(obj == null)
             {
                 return NotFound();
             }
-            List<Endereco> enderecos = _enderecoService.FindAll();
+            List<Endereco> enderecos = await _enderecoService.FindAllAsync();
             EnderecoFormViewModel viewModel = new EnderecoFormViewModel { Endereco = obj };
             return View(viewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Endereco endereco)
+        public async Task<IActionResult> Edit(int id, Endereco endereco)
         {
             if (!ModelState.IsValid)
             {
@@ -105,7 +105,7 @@ namespace RegistroCadastro.Controllers
             }
             try
             {
-                _enderecoService.Update(endereco);
+                await _enderecoService.UpdateAsync(endereco);
                 return RedirectToAction(nameof(Index));
             }
             catch(NotFoundException)

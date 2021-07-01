@@ -16,36 +16,37 @@ namespace RegistroCadastro.Services
         {
             _context = context;
         }
-        public List<Pessoa> FindAll()
+        public async Task<List<Pessoa>> FindAllAsync()
         {
-            return _context.Pessoa.ToList();
+            return await _context.Pessoa.ToListAsync();
         }
-        public Pessoa FindById(int id)
+        public async Task<Pessoa> FindByIdAsync(int id)
         {
-            return _context.Pessoa.Include(obj => obj.Endereco).FirstOrDefault(obj => obj.Id == id);
+            return await _context.Pessoa.Include(obj => obj.Endereco).FirstOrDefaultAsync(obj => obj.Id == id);
         }
-        public void Insert(Endereco obj)
+        public async Task InsertAsync(Endereco obj)
         {
             _context.Add(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
         
-        public void Remove(int id)
+        public async Task RemoveAsync(int id)
         {
-            var obj = _context.Pessoa.Find(id);
+            var obj = await _context.Pessoa.FindAsync(id);
             _context.Pessoa.Remove(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-        public void Update(Endereco obj)
+        public async Task UpdateAsync(Endereco obj)
         {
-            if (!_context.Pessoa.Any(x => x.Id == obj.Id))
+            bool hasAny = await _context.Pessoa.AnyAsync(x => x.Id == obj.Id);
+            if (!hasAny)
             {
                 throw new NotFoundException("Id not found");
             }
             try
             {
                 _context.Update(obj);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException e)
             {
