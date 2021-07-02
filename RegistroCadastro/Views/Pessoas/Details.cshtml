@@ -29,15 +29,21 @@
             @Html.DisplayFor(model => model.Sexo)
         </dd>
         <dt>
+            @Html.DisplayNameFor(model => model.CPF)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CPF)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Idade)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Idade)
         </dd>
-       
+
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
+    
     <a asp-action="Index">Voltar para a lista</a>
 </div>

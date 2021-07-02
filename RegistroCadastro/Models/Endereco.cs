@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using RegistroCadastro.Models.Enums;
+
 
 namespace RegistroCadastro.Models
 {
@@ -16,14 +18,16 @@ namespace RegistroCadastro.Models
         public string Estado { get; set; }
         [DisplayFormat(DataFormatString = "{0:00\\.000\\-000}",ApplyFormatInEditMode = true)]
         public double CEP { get; set; }
+        public TipoDeLoc TipoDeRua { get; set; }
 
         public Pessoa Pessoa { get; set; }
+        public int PessoaId { get; set; }
 
         public Endereco()
         {
         }
 
-        public Endereco(int id, string logradouro, string complemento, string cidade, string estado, double cep, Pessoa pessoa)
+        public Endereco(int id, string logradouro, string complemento, string cidade, string estado, double cep,TipoDeLoc tipoDeRua, Pessoa pessoa)
         {
             Id = id;
             Logradouro = logradouro;
@@ -31,6 +35,7 @@ namespace RegistroCadastro.Models
             Cidade = cidade;
             Estado = estado;
             CEP = cep;
+            TipoDeRua = tipoDeRua;
             Pessoa = pessoa;
         }
 

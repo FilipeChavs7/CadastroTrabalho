@@ -24,7 +24,7 @@ namespace RegistroCadastro.Services
         {
             return await _context.Pessoa.Include(obj => obj.Endereco).FirstOrDefaultAsync(obj => obj.Id == id);
         }
-        public async Task InsertAsync(Endereco obj)
+        public async Task InsertAsync(Pessoa obj)
         {
             _context.Add(obj);
             await _context.SaveChangesAsync();
@@ -36,7 +36,7 @@ namespace RegistroCadastro.Services
             _context.Pessoa.Remove(obj);
             await _context.SaveChangesAsync();
         }
-        public async Task UpdateAsync(Endereco obj)
+        public async Task UpdateAsync(Pessoa obj)
         {
             bool hasAny = await _context.Pessoa.AnyAsync(x => x.Id == obj.Id);
             if (!hasAny)

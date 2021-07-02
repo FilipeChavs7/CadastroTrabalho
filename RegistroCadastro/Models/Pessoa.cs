@@ -14,13 +14,22 @@ namespace RegistroCadastro.Models
         [Required(ErrorMessage = "{0} required")]
         [Display(Name = "Nome")]
         public string Name { get; set; }
+
+
+        public string CPF { get; set; }
+
+
         [Required(ErrorMessage = "{0} required")]
         [Display(Name = "Data de Nascimento")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime BirthDate { get; set; }
+
+
         [Required(ErrorMessage = "{0} required")]
         public Sexo Sexo { get; set; }
+
+
         public int Idade { get; private set; }
         public ICollection<Endereco> Endereco { get; set; } = new List<Endereco>();
 
@@ -28,10 +37,11 @@ namespace RegistroCadastro.Models
         {
         }
 
-        public Pessoa(int id, string name, DateTime birthDate, Sexo sexo)
+        public Pessoa(int id, string name,string cpf, DateTime birthDate, Sexo sexo)
         {
             Id = Id;
             Name = name;
+            CPF = cpf;
             BirthDate = birthDate;
             Sexo = sexo;
         }

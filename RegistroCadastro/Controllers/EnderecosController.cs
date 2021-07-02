@@ -7,6 +7,7 @@ using RegistroCadastro.Services;
 using RegistroCadastro.Models;
 using RegistroCadastro.Models.ViewModels;
 using RegistroCadastro.Services.Exceptions;
+using System.Diagnostics;
 
 namespace RegistroCadastro.Controllers
 {
@@ -28,7 +29,9 @@ namespace RegistroCadastro.Controllers
         }
         public async Task<IActionResult> Create()
         {
-            return View();
+            var pessoas = await _pessoaService.FindAllAsync();
+            var viewModel = new EnderecoFormViewModel { Pessoas = pessoas };
+            return View(viewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -46,12 +49,12 @@ namespace RegistroCadastro.Controllers
         {
             if(id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
             var obj = await _enderecoService.FindByIdAsync(id.Value);
             if(obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
             return View(obj);
         }
@@ -66,12 +69,12 @@ namespace RegistroCadastro.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
             var obj = await _enderecoService.FindByIdAsync(id.Value);
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
             return View(obj);
         }
@@ -79,12 +82,12 @@ namespace RegistroCadastro.Controllers
         {
             if(id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
             var obj = await _enderecoService.FindByIdAsync(id.Value);
             if(obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
             List<Endereco> enderecos = await _enderecoService.FindAllAsync();
             EnderecoFormViewModel viewModel = new EnderecoFormViewModel { Endereco = obj };
@@ -101,22 +104,30 @@ namespace RegistroCadastro.Controllers
             }
             if (id != endereco.Id)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Error), new { message = "Id mismatch" });
             }
             try
             {
                 await _enderecoService.UpdateAsync(endereco);
                 return RedirectToAction(nameof(Index));
             }
-            catch(NotFoundException)
+            catch(NotFoundException e)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Error), new { message = e.Message }); 
             }
-            catch (DbConcurrencyException)
+            catch (DbConcurrencyException e)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
         }
-
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+            return View(viewModel);
+        }
     }
 }

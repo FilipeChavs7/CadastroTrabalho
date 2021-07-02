@@ -36,11 +36,24 @@
 
             </div>
             <div class="form-group">
+                <label asp-for="Endereco.TipoDeRua" class="control-label"></label>
+                <select asp-for="Endereco.TipoDeRua" class="form-control">
+                    <option value="0" selected>Residencial</option>
+                    <option value="1" selected>Comercial</option>
+                    <option value="2" selected>Outro</option>
+                </select>
+                <span asp-validation-for="Endereco.TipoDeRua" class="text-danger"></span>
+
+            </div>
+            <div class="form-group">
                 <label asp-for="Endereco.CEP" class="control-label"></label>
                 <input asp-for="Endereco.CEP" class="form-control" />
                 <span asp-validation-for="Endereco.CEP" class="text-danger"></span>
             </div>
-     
+            <div class="form-group">
+                <label asp-for="Endereco.PessoaId" class="control-label"></label>
+                <select asp-for="Endereco.PessoaId" asp-items="@(new SelectList(Model.Pessoas,"Id","Name"))" class="form-control"></select>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Registrar" class="btn btn-success form-control" />
             </div>

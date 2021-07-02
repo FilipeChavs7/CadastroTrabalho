@@ -34,12 +34,18 @@
             @Html.DisplayFor(model => model.Estado)
         </dd>
         <dt>
+            @Html.DisplayNameFor(model => model.TipoDeRua)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TipoDeRua)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.CEP)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.CEP)
         </dd>
- 
+
     </dl>
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
