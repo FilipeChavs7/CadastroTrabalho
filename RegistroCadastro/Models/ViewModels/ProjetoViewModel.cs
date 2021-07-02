@@ -7,5 +7,6 @@ namespace RegistroCadastro.Models.ViewModels
 {
     public class ProjetoViewModel
     {
+
     }
 }
