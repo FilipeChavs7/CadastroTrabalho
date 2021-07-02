@@ -1,4 +1,4 @@
-﻿@model RegistroCadastro.Models.Pessoa
+﻿@model RegistroCadastro.Models.ViewModels.PessoaFormViewModel
 
 @{
     ViewData["Title"] = "Editar";
@@ -12,30 +12,30 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Pessoa.Id" />
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Pessoa.Name" class="control-label"></label>
+                <input asp-for="Pessoa.Name" class="form-control" />
+                <span asp-validation-for="Pessoa.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BirthDate" class="control-label"></label>
-                <input asp-for="BirthDate" class="form-control" />
-                <span asp-validation-for="BirthDate" class="text-danger"></span>
+                <label asp-for="Pessoa.BirthDate" class="control-label"></label>
+                <input asp-for="Pessoa.BirthDate" class="form-control" />
+                <span asp-validation-for="Pessoa.BirthDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Sexo" class="control-label"></label>
-                <select asp-for="Sexo" class="form-control">
+                <label asp-for="Pessoa.Sexo" class="control-label"></label>
+                <select asp-for="Pessoa.Sexo" class="form-control">
                     <option value="0" selected>Masculino</option>
                     <option value="1" selected>Feminino</option>
                     <option value="2" selected>Outros</option>
                 </select>
-                <span asp-validation-for="Sexo" class="text-danger"></span>
+                <span asp-validation-for="Pessoa.Sexo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CPF" class="control-label"></label>
-                <input asp-for="CPF" class="form-control" />
-                <span asp-validation-for="CPF" class="text-danger"></span>
+                <label asp-for="Pessoa.CPF" class="control-label"></label>
+                <input asp-for="Pessoa.CPF" class="form-control" />
+                <span asp-validation-for="Pessoa.CPF" class="text-danger"></span>
             </div>
 
             <div class="form-group">

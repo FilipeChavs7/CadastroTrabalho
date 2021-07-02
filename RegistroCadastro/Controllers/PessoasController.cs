@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RegistroCadastro.Models;
+using RegistroCadastro.Models.ViewModels;
 using RegistroCadastro.Services;
-
+using RegistroCadastro.Services.Exceptions;
 
 namespace RegistroCadastro.Controllers
 {
@@ -24,136 +26,117 @@ namespace RegistroCadastro.Controllers
             _enderecoService = enderecoService;
         }
 
-        // GET: Pessoas
+        
+
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Pessoa.ToListAsync());
+            var list = await _pessoaService.FindAllAsync();
+            return View(list);
         }
-
-        // GET: Pessoas/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Create()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var pessoa = await _context.Pessoa
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (pessoa == null)
-            {
-                return NotFound();
-            }
-
-            return View(pessoa);
+            var enderecos = await _enderecoService.FindAllAsync();
+            var viewModel = new PessoaFormViewModel { Enderecos = enderecos };
+            return View(viewModel);
         }
-
-        // GET: Pessoas/Create
-        public IActionResult Create()
-        {
-            
-            return View();
-        }
-
-        // POST: Pessoas/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,BirthDate,Sexo,Idade")] Pessoa pessoa)
+        public async Task<IActionResult> Create(Pessoa pessoa)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(pessoa);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var enderecos = await _enderecoService.FindAllAsync();
+                var viewModel = new PessoaFormViewModel { Pessoa = pessoa, Enderecos = enderecos };
+                return View(viewModel);
             }
-            return View(pessoa);
+            await _pessoaService.InsertAsync(pessoa);
+            return RedirectToAction(nameof(Index));
         }
-
-        // GET: Pessoas/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var pessoa = await _context.Pessoa.FindAsync(id);
-            if (pessoa == null)
-            {
-                return NotFound();
-            }
-            return View(pessoa);
-        }
-
-        // POST: Pessoas/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,BirthDate,Sexo,Idade")] Pessoa pessoa)
-        {
-            if (id != pessoa.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(pessoa);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PessoaExists(pessoa.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(pessoa);
-        }
-
-        // GET: Pessoas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
-
-            var pessoa = await _context.Pessoa
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (pessoa == null)
+            var obj = await _pessoaService.FindByIdAsync(id.Value);
+            if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
-
-            return View(pessoa);
+            return View(obj);
         }
-
-        // POST: Pessoas/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var pessoa = await _context.Pessoa.FindAsync(id);
-            _context.Pessoa.Remove(pessoa);
-            await _context.SaveChangesAsync();
+            await _pessoaService.RemoveAsync(id);
             return RedirectToAction(nameof(Index));
         }
-
-        private bool PessoaExists(int id)
+        public async Task<IActionResult> Details(int? id)
         {
-            return _context.Pessoa.Any(e => e.Id == id);
+            if (id == null)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id not provided" });
+            }
+            var obj = await _pessoaService.FindByIdAsync(id.Value);
+            if (obj == null)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id not found" });
+            }
+            return View(obj);
+        }
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id not provided" });
+            }
+            var obj = await _pessoaService.FindByIdAsync(id.Value);
+            if (obj == null)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id not found" });
+            }
+            List<Pessoa> pessoas = await _pessoaService.FindAllAsync();
+            //provavel adicionar uma list da endereços aqui para colocar no viewModel
+            PessoaFormViewModel viewModel = new PessoaFormViewModel { Pessoa = obj };
+            return View(viewModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Pessoa pessoa)
+        {
+            if (!ModelState.IsValid)
+            {
+                var viewModel = new PessoaFormViewModel { Pessoa = pessoa };
+                return View(viewModel);
+            }
+            if (id != pessoa.Id)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id mismatch" });
+            }
+            try
+            {
+                await _pessoaService.UpdateAsync(pessoa);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (NotFoundException e)
+            {
+                return RedirectToAction(nameof(Error), new { message = e.Message });
+            }
+            catch (DbConcurrencyException e)
+            {
+                return RedirectToAction(nameof(Error), new { message = e.Message });
+            }
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+            return View(viewModel);
         }
     }
 }
