@@ -15,7 +15,7 @@ namespace RegistroCadastro.Models
         [Display(Name = "Nome")]
         public string Name { get; set; }
 
-
+        [DisplayFormat(DataFormatString = "{0:000\\.000\\.000\\-00}", ApplyFormatInEditMode = false)]
         public string CPF { get; set; }
 
 

@@ -16,7 +16,7 @@ namespace RegistroCadastro.Models
         public string Cidade { get; set; }
         [StringLength(2, MinimumLength = 2, ErrorMessage = "Somente a sigla do estado")]
         public string Estado { get; set; }
-        [DisplayFormat(DataFormatString = "{0:00\\.000\\-000}",ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:00\\.000\\-000}",ApplyFormatInEditMode = false)]
         public double CEP { get; set; }
         public TipoDeLoc TipoDeRua { get; set; }
 

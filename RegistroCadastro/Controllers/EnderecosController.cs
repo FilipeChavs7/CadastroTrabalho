@@ -89,8 +89,8 @@ namespace RegistroCadastro.Controllers
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
-            List<Endereco> enderecos = await _enderecoService.FindAllAsync();
-            EnderecoFormViewModel viewModel = new EnderecoFormViewModel { Endereco = obj };
+            List<Pessoa> pessoas = await _pessoaService.FindAllAsync();
+            EnderecoFormViewModel viewModel = new EnderecoFormViewModel { Endereco = obj, Pessoas = pessoas };
             return View(viewModel);
         }
         [HttpPost]
