@@ -11,22 +11,23 @@ namespace RegistroCadastro.Models
     public class Pessoa
     {
         public int Id { get; set; }
-        [Required(ErrorMessage = "{0} required")]
+        [Required(ErrorMessage = "Preencha o nome")]
         [Display(Name = "Nome")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Preencha o CPF")]
         [DisplayFormat(DataFormatString = "{0:000\\.000\\.000\\-00}", ApplyFormatInEditMode = false)]
         public string CPF { get; set; }
 
 
-        [Required(ErrorMessage = "{0} required")]
+        [Required(ErrorMessage = "Preencha a data de nascimento")]
         [Display(Name = "Data de Nascimento")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime BirthDate { get; set; }
 
 
-        [Required(ErrorMessage = "{0} required")]
+        [Required(ErrorMessage = "Escolha o sexo")]
         public Sexo Sexo { get; set; }
 
 

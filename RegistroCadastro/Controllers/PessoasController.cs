@@ -64,10 +64,10 @@ namespace RegistroCadastro.Controllers
                 Estado = pessoaFormViewModel.Endereco.Estado,
                 CEP = pessoaFormViewModel.Endereco.CEP,
                 TipoDeRua = pessoaFormViewModel.Endereco.TipoDeRua,
-                Pessoa = pessoaFormViewModel.Endereco.Pessoa
+                Pessoa = pessoaFormViewModel.Pessoa
             };
             
-            await _pessoaService.InsertAsync(pessoa1);
+            /*await _pessoaService.InsertAsync(pessoa1);*/
             await _enderecoService.InsertAsync(endereco1);
             return RedirectToAction(nameof(Index));
         }
