@@ -1,4 +1,4 @@
-﻿@model RegistroCadastro.Models.Pessoa
+﻿@model RegistroCadastro.Models.ViewModels.PessoaFormViewModel
 
 @{
     ViewData["Title"] = "Detalhes";
@@ -11,30 +11,65 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Pessoa.Name)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Pessoa.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.BirthDate)
+            @Html.DisplayNameFor(model => model.Pessoa.BirthDate)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.BirthDate)
+            @Html.DisplayFor(model => model.Pessoa.BirthDate)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Sexo)
+            @Html.DisplayNameFor(model => model.Pessoa.Sexo)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Sexo)
+            @Html.DisplayFor(model => model.Pessoa.Sexo)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.CPF)
+            @Html.DisplayNameFor(model => model.Pessoa.CPF)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.CPF)
+            @Html.DisplayFor(model => model.Pessoa.CPF)
         </dd>
-     
+        <dt>
+            @Html.DisplayNameFor(model => model.Endereco.Logradouro)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Endereco.Logradouro)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Endereco.Complemento)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Endereco.Complemento)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Endereco.Cidade)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Endereco.Cidade)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Endereco.Estado)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Endereco.Estado)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Endereco.CEP)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Endereco.CEP)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Endereco.TipoDeRua)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Endereco.TipoDeRua)
+        </dd>
 
     </dl>
 </div>

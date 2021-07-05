@@ -84,12 +84,14 @@ namespace RegistroCadastro.Controllers
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
-            var obj = await _pessoaService.FindByIdAsync(id.Value);
-            if (obj == null)
+            var pessoa = await _pessoaService.FindByIdAsync(id.Value);
+            var endereco = await _enderecoService.FindByIdAsync(id.Value);
+            if (pessoa == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
-            return View(obj);
+            PessoaFormViewModel viewModel = new PessoaFormViewModel { Pessoa = pessoa, Endereco = endereco };
+            return View(viewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -104,12 +106,14 @@ namespace RegistroCadastro.Controllers
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
-            var obj = await _pessoaService.FindByIdAsync(id.Value);
-            if (obj == null)
+            var pessoa = await _pessoaService.FindByIdAsync(id.Value);
+            var endereco = await _enderecoService.FindByIdAsync(id.Value);
+            if (pessoa == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
-            return View(obj);
+            PessoaFormViewModel viewModel = new PessoaFormViewModel { Pessoa = pessoa, Endereco = endereco };
+            return View(viewModel);
         }
         public async Task<IActionResult> Edit(int? id)
         {
@@ -117,16 +121,16 @@ namespace RegistroCadastro.Controllers
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
-            var obj = await _pessoaService.FindByIdAsync(id.Value);
-            var obj2 = await _enderecoService.FindByIdAsync(id.Value);
-            if (obj == null)
+            var pessoa = await _pessoaService.FindByIdAsync(id.Value);
+            var endereco = await _enderecoService.FindByIdAsync(id.Value);
+            if (pessoa == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
-            List<Pessoa> pessoas = await _pessoaService.FindAllAsync();
-            List<Endereco> enderecos = await _enderecoService.FindAllAsync();
+            /*List<Pessoa> pessoas = await _pessoaService.FindAllAsync();
+            List<Endereco> enderecos = await _enderecoService.FindAllAsync();*/
             //provavel adicionar uma list da endereços aqui para colocar no viewModel
-            PessoaFormViewModel viewModel = new PessoaFormViewModel { Pessoa = obj,Endereco = obj2 };
+            PessoaFormViewModel viewModel = new PessoaFormViewModel { Pessoa = pessoa,Endereco = endereco };
             return View(viewModel);
         }
         [HttpPost]

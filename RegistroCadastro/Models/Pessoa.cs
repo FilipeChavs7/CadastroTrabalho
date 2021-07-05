@@ -30,7 +30,6 @@ namespace RegistroCadastro.Models
         [Required(ErrorMessage = "Escolha o sexo")]
         public Sexo Sexo { get; set; }
 
-
         public ICollection<Endereco> Endereco { get; set; } = new List<Endereco>();
 
         public Pessoa()
