@@ -31,7 +31,6 @@ namespace RegistroCadastro.Models
         public Sexo Sexo { get; set; }
 
 
-        public int Idade { get; private set; }
         public ICollection<Endereco> Endereco { get; set; } = new List<Endereco>();
 
         public Pessoa()
@@ -55,14 +54,14 @@ namespace RegistroCadastro.Models
         {
             Endereco.Remove(loc);
         }
-        public void FindAge()
+        public int FindAge()
         {
             int idade = DateTime.Now.Year - BirthDate.Year;
             if (DateTime.Now.Day < BirthDate.Day)
             {
                 idade--;
             }
-            Idade = idade;
+            return idade;
         }
 
         

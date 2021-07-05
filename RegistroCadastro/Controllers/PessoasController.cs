@@ -49,27 +49,34 @@ namespace RegistroCadastro.Controllers
                 var viewModel = new PessoaFormViewModel { Pessoa = pessoaFormViewModel.Pessoa, Enderecos = enderecos };
                 return View(viewModel);
             }
-            var pessoa1 = new Pessoa
+            try
             {
-                Name = pessoaFormViewModel.Pessoa.Name,
-                BirthDate = pessoaFormViewModel.Pessoa.BirthDate,
-                CPF = pessoaFormViewModel.Pessoa.CPF,
-                Sexo = pessoaFormViewModel.Pessoa.Sexo
-            };
-            var endereco1 = new Endereco
+                var pessoa1 = new Pessoa
+                {
+                    Name = pessoaFormViewModel.Pessoa.Name,
+                    BirthDate = pessoaFormViewModel.Pessoa.BirthDate,
+                    CPF = pessoaFormViewModel.Pessoa.CPF,
+                    Sexo = pessoaFormViewModel.Pessoa.Sexo
+                };
+                var endereco1 = new Endereco
+                {
+                    Logradouro = pessoaFormViewModel.Endereco.Logradouro,
+                    Complemento = pessoaFormViewModel.Endereco.Complemento,
+                    Cidade = pessoaFormViewModel.Endereco.Cidade,
+                    Estado = pessoaFormViewModel.Endereco.Estado,
+                    CEP = pessoaFormViewModel.Endereco.CEP,
+                    TipoDeRua = pessoaFormViewModel.Endereco.TipoDeRua,
+                    Pessoa = pessoaFormViewModel.Pessoa
+                };
+
+                /*await _pessoaService.InsertAsync(pessoa1);*/
+                await _enderecoService.InsertAsync(endereco1);
+                return RedirectToAction(nameof(Index));
+            }
+            catch(FoundCPFException e)
             {
-                Logradouro = pessoaFormViewModel.Endereco.Logradouro,
-                Complemento = pessoaFormViewModel.Endereco.Complemento,
-                Cidade = pessoaFormViewModel.Endereco.Cidade,
-                Estado = pessoaFormViewModel.Endereco.Estado,
-                CEP = pessoaFormViewModel.Endereco.CEP,
-                TipoDeRua = pessoaFormViewModel.Endereco.TipoDeRua,
-                Pessoa = pessoaFormViewModel.Pessoa
-            };
-            
-            /*await _pessoaService.InsertAsync(pessoa1);*/
-            await _enderecoService.InsertAsync(endereco1);
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Error), new { message = e.Message });
+            }
         }
         public async Task<IActionResult> Delete(int? id)
         {

@@ -26,9 +26,17 @@ namespace RegistroCadastro.Services
         }
         public async Task InsertAsync(Pessoa obj)
         {
-            
-            _context.Add(obj);
-            await _context.SaveChangesAsync();
+            bool hasAnyCPF = await _context.Pessoa.AnyAsync(x => x.CPF == obj.CPF);
+            if (!hasAnyCPF)
+            {
+                _context.Add(obj);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new FoundCPFException("CPF cadastrado ja existe!");
+                
+            }
         }
         
         public async Task RemoveAsync(int id)
