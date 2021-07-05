@@ -41,15 +41,34 @@ namespace RegistroCadastro.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Pessoa pessoa)
+        public async Task<IActionResult> Create(PessoaFormViewModel pessoaFormViewModel)
         {
             if (!ModelState.IsValid)
             {
                 var enderecos = await _enderecoService.FindAllAsync();
-                var viewModel = new PessoaFormViewModel { Pessoa = pessoa, Enderecos = enderecos };
+                var viewModel = new PessoaFormViewModel { Pessoa = pessoaFormViewModel.Pessoa, Enderecos = enderecos };
                 return View(viewModel);
             }
-            await _pessoaService.InsertAsync(pessoa);
+            var pessoa1 = new Pessoa
+            {
+                Name = pessoaFormViewModel.Pessoa.Name,
+                BirthDate = pessoaFormViewModel.Pessoa.BirthDate,
+                CPF = pessoaFormViewModel.Pessoa.CPF,
+                Sexo = pessoaFormViewModel.Pessoa.Sexo
+            };
+            var endereco1 = new Endereco
+            {
+                Logradouro = pessoaFormViewModel.Endereco.Logradouro,
+                Complemento = pessoaFormViewModel.Endereco.Complemento,
+                Cidade = pessoaFormViewModel.Endereco.Cidade,
+                Estado = pessoaFormViewModel.Endereco.Estado,
+                CEP = pessoaFormViewModel.Endereco.CEP,
+                TipoDeRua = pessoaFormViewModel.Endereco.TipoDeRua,
+                Pessoa = pessoaFormViewModel.Endereco.Pessoa
+            };
+            
+            await _pessoaService.InsertAsync(pessoa1);
+            await _enderecoService.InsertAsync(endereco1);
             return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> Delete(int? id)

@@ -29,9 +29,7 @@ namespace RegistroCadastro.Controllers
         }
         public async Task<IActionResult> Create()
         {
-            var pessoas = await _pessoaService.FindAllAsync();
-            var viewModel = new EnderecoFormViewModel { Pessoas = pessoas };
-            return View(viewModel);
+            return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -42,6 +40,7 @@ namespace RegistroCadastro.Controllers
                 var viewModel = new EnderecoFormViewModel { Endereco = endereco };
                 return View(viewModel);
             }
+           
             await _enderecoService.InsertAsync(endereco);
             return RedirectToAction(nameof(Index));
         }

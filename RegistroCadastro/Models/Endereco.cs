@@ -21,7 +21,7 @@ namespace RegistroCadastro.Models
         public TipoDeLoc TipoDeRua { get; set; }
 
         public Pessoa Pessoa { get; set; }
-        public int PessoaId { get; set; }
+        
 
         public Endereco()
         {
