@@ -118,31 +118,38 @@ namespace RegistroCadastro.Controllers
                 return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
             var obj = await _pessoaService.FindByIdAsync(id.Value);
+            var obj2 = await _enderecoService.FindByIdAsync(id.Value);
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
             List<Pessoa> pessoas = await _pessoaService.FindAllAsync();
+            List<Endereco> enderecos = await _enderecoService.FindAllAsync();
             //provavel adicionar uma list da endereços aqui para colocar no viewModel
-            PessoaFormViewModel viewModel = new PessoaFormViewModel { Pessoa = obj };
+            PessoaFormViewModel viewModel = new PessoaFormViewModel { Pessoa = obj,Endereco = obj2 };
             return View(viewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Pessoa pessoa)
+        public async Task<IActionResult> Edit(int id, PessoaFormViewModel pessoaFormViewModel)
         {
             if (!ModelState.IsValid)
             {
-                var viewModel = new PessoaFormViewModel { Pessoa = pessoa };
+                var viewModel = new PessoaFormViewModel { Pessoa = pessoaFormViewModel.Pessoa, Endereco = pessoaFormViewModel.Endereco };
                 return View(viewModel);
             }
-            if (id != pessoa.Id)
+            if (id != pessoaFormViewModel.Pessoa.Id)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id mismatch" });
+            }
+            if (id != pessoaFormViewModel.Endereco.Id)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id mismatch" });
             }
             try
             {
-                await _pessoaService.UpdateAsync(pessoa);
+                await _pessoaService.UpdateAsync(pessoaFormViewModel);
+                /*await _enderecoService.UpdateAsync(pessoaFormViewModel.Endereco);*/
                 return RedirectToAction(nameof(Index));
             }
             catch (NotFoundException e)

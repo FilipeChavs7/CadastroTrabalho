@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using RegistroCadastro.Models;
 using Microsoft.EntityFrameworkCore;
 using RegistroCadastro.Services.Exceptions;
+using RegistroCadastro.Models.ViewModels;
 
 namespace RegistroCadastro.Services
 {
@@ -45,16 +46,17 @@ namespace RegistroCadastro.Services
             _context.Pessoa.Remove(obj);
             await _context.SaveChangesAsync();
         }
-        public async Task UpdateAsync(Pessoa obj)
+        public async Task UpdateAsync(PessoaFormViewModel obj)
         {
-            bool hasAny = await _context.Pessoa.AnyAsync(x => x.Id == obj.Id);
+            bool hasAny = await _context.Pessoa.AnyAsync(x => x.Id == obj.Pessoa.Id);
             if (!hasAny)
             {
                 throw new NotFoundException("Id not found");
             }
             try
             {
-                _context.Update(obj);
+                _context.Update(obj.Pessoa);
+                _context.Update(obj.Endereco);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException e)

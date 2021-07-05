@@ -53,7 +53,7 @@ namespace RegistroCadastro.Services
             try
             {
                 _context.Update(obj);
-                await _context.SaveChangesAsync();
+                /*await _context.SaveChangesAsync();*/
             }
             catch(DbUpdateConcurrencyException e)
             {
