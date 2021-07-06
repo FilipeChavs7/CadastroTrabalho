@@ -58,7 +58,7 @@ namespace RegistroCadastro.Controllers
                     CPF = pessoaFormViewModel.Pessoa.CPF,
                     Sexo = pessoaFormViewModel.Pessoa.Sexo
                 };
-                var endereco1 = new Endereco
+                /*var endereco1 = new Endereco
                 {
                     Logradouro = pessoaFormViewModel.Endereco.Logradouro,
                     Complemento = pessoaFormViewModel.Endereco.Complemento,
@@ -67,16 +67,42 @@ namespace RegistroCadastro.Controllers
                     CEP = pessoaFormViewModel.Endereco.CEP,
                     TipoDeRua = pessoaFormViewModel.Endereco.TipoDeRua,
                     Pessoa = pessoaFormViewModel.Pessoa
-                };
+                };*/ //salva o endereço e pessoa
 
-                /*await _pessoaService.InsertAsync(pessoa1);*/
-                await _enderecoService.InsertAsync(endereco1);
-                return RedirectToAction(nameof(Index));
+                await _pessoaService.InsertAsync(pessoa1);
+                /*await _enderecoService.InsertAsync(endereco1); */ //salva o endereço junto com a pessoa, so um por pessoa!
+                /*return RedirectToAction(nameof(Index));*/ // volta na tela do index
+                return RedirectToAction(nameof(AdicionarEndereco));
+
             }
             catch(FoundCPFException e)
             {
                 return RedirectToAction(nameof(Error), new { message = e.Message });
             }
+        }
+        public async Task<IActionResult> AdicionarEndereco(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction(nameof(Error), new { message = "ID da criação endereço não provido" });
+            }
+            var pessoa = await _pessoaService.FindByIdAsync(id.Value);
+            var endereco = await _enderecoService.FindByIdAsync(id.Value);
+            PessoaFormViewModel viewModel = new PessoaFormViewModel { Pessoa = pessoa, Endereco = endereco };
+            return PartialView(viewModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdicionarEndereco(PessoaFormViewModel pessoaFormViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                var viewModel = new PessoaFormViewModel { Pessoa = pessoaFormViewModel.Pessoa, Endereco = pessoaFormViewModel.Endereco };
+                return PartialView(viewModel);
+            }
+
+            await _enderecoService.InsertAsync(pessoaFormViewModel.Endereco);
+            return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> Delete(int? id)
         {

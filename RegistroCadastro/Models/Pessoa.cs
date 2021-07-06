@@ -62,7 +62,11 @@ namespace RegistroCadastro.Models
             }
             return idade;
         }
-
+        public void MostraEndereco()
+        {
+            
+            
+        }
         
 
     }
