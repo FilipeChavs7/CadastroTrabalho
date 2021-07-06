@@ -4,8 +4,9 @@
 
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="AdicionarEndereco">
+        <form asp-action="AdicionaEndereco">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Endereco.Id" />
             <div class="form-group">
                 <label asp-for="Endereco.Logradouro" class="control-label"></label>
                 <input asp-for="Endereco.Logradouro" class="form-control" />
@@ -44,10 +45,16 @@
                 <input asp-for="Endereco.CEP" class="form-control" />
                 <span asp-validation-for="Endereco.CEP" class="text-danger"></span>
             </div>
+
             <br />
             <div class="form-group">
-                
-                <input type="submit" value="Registrar" class="btn btn-success form-control" />
+
+                <input type="submit" value="Adicionar" class="btn btn-success form-control" />
+            </div>
+            <div style="visibility: hidden">
+                <label asp-for="Endereco.PessoaId" class="control-label"></label>
+                <input asp-for="Endereco.PessoaId" class="form-control" />
+                <span asp-validation-for="Endereco.PessoaId" class="text-danger"></span>
             </div>
         </form>
 

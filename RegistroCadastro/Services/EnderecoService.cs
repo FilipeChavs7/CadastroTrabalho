@@ -22,16 +22,13 @@ namespace RegistroCadastro.Services
         }
         public async Task InsertAsync(Endereco obj)
         {
-            bool hasAnyCPF = await _context.Pessoa.AnyAsync(x => x.CPF == obj.Pessoa.CPF);
-            if (!hasAnyCPF)
-            {
-                _context.Add(obj);
-                await _context.SaveChangesAsync();
-            }
-            else
-            {
-                throw new FoundCPFException("CPF cadastrado ja existe!");
-            }
+
+
+
+            _context.Add(obj);
+            await _context.SaveChangesAsync();
+
+
         }
         public async Task<Endereco> FindByIdAsync(int id)
         {
@@ -55,7 +52,7 @@ namespace RegistroCadastro.Services
                 _context.Update(obj);
                 /*await _context.SaveChangesAsync();*/
             }
-            catch(DbUpdateConcurrencyException e)
+            catch (DbUpdateConcurrencyException e)
             {
                 throw new DbConcurrencyException(e.Message);
             }
