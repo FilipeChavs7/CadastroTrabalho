@@ -35,7 +35,7 @@ namespace RegistroCadastro.Services
             }
             else
             {
-                throw new FoundCPFException("CPF cadastrado ja existe!");
+                throw new FoundCPFException("Esse CPF já está sendo utilizado!");
                 
             }
         }
@@ -49,9 +49,14 @@ namespace RegistroCadastro.Services
         public async Task UpdateAsync(PessoaFormViewModel obj)
         {
             bool hasAny = await _context.Pessoa.AnyAsync(x => x.Id == obj.Pessoa.Id);
+            bool hasAnyCPF = await _context.Pessoa.AnyAsync(x => x.CPF == obj.Pessoa.CPF);
             if (!hasAny)
             {
-                throw new NotFoundException("Id not found");
+                throw new NotFoundException("ID não encontrado!");
+            }
+            if (hasAnyCPF)
+            {
+                throw new FoundCPFException("CPF já existe!");
             }
             try
             {

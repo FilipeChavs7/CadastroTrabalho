@@ -82,13 +82,13 @@ namespace RegistroCadastro.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id not provided" });
+                return RedirectToAction(nameof(Error), new { message = "ID não foi dado" });
             }
             var pessoa = await _pessoaService.FindByIdAsync(id.Value);
             var endereco = await _enderecoService.FindByIdAsync(id.Value);
             if (pessoa == null)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id not found" });
+                return RedirectToAction(nameof(Error), new { message = "ID não foi encontrado" });
             }
             PessoaFormViewModel viewModel = new PessoaFormViewModel { Pessoa = pessoa, Endereco = endereco };
             return View(viewModel);
@@ -104,13 +104,13 @@ namespace RegistroCadastro.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id not provided" });
+                return RedirectToAction(nameof(Error), new { message = "ID não foi dado" });
             }
             var pessoa = await _pessoaService.FindByIdAsync(id.Value);
             var endereco = await _enderecoService.FindByIdAsync(id.Value);
             if (pessoa == null)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id not found" });
+                return RedirectToAction(nameof(Error), new { message = "ID não foi encontrado" });
             }
             PessoaFormViewModel viewModel = new PessoaFormViewModel { Pessoa = pessoa, Endereco = endereco };
             return View(viewModel);
@@ -119,13 +119,13 @@ namespace RegistroCadastro.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id not provided" });
+                return RedirectToAction(nameof(Error), new { message = "ID não foi dado" });
             }
             var pessoa = await _pessoaService.FindByIdAsync(id.Value);
             var endereco = await _enderecoService.FindByIdAsync(id.Value);
             if (pessoa == null)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id not found" });
+                return RedirectToAction(nameof(Error), new { message = "ID não foi encontrado" });
             }
             /*List<Pessoa> pessoas = await _pessoaService.FindAllAsync();
             List<Endereco> enderecos = await _enderecoService.FindAllAsync();*/
@@ -144,11 +144,11 @@ namespace RegistroCadastro.Controllers
             }
             if (id != pessoaFormViewModel.Pessoa.Id)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id mismatch" });
+                return RedirectToAction(nameof(Error), new { message = "ID incompatível" });
             }
             if (id != pessoaFormViewModel.Endereco.Id)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id mismatch" });
+                return RedirectToAction(nameof(Error), new { message = "ID incompatível" });
             }
             try
             {
@@ -161,6 +161,10 @@ namespace RegistroCadastro.Controllers
                 return RedirectToAction(nameof(Error), new { message = e.Message });
             }
             catch (DbConcurrencyException e)
+            {
+                return RedirectToAction(nameof(Error), new { message = e.Message });
+            }
+            catch (FoundCPFException e)
             {
                 return RedirectToAction(nameof(Error), new { message = e.Message });
             }
